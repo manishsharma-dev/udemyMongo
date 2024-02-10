@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 before((done) => {
     mongoose.connect('mongodb://localhost/user_test');
     mongoose.connection
-        .once('open', () => { done(); })
+        .once('open', () => {  console.log('Started'); done(); })
         .on('error', (error) => console.warn('Warning', error));
 })
 
