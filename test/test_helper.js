@@ -4,12 +4,17 @@ const mongoose = require('mongoose');
 before((done) => {
     mongoose.connect('mongodb://localhost/user_test');
     mongoose.connection
-        .once('open', () => {  console.log('Started'); done(); })
+        .once('open', () => { console.log('Started'); done(); })
         .on('error', (error) => console.warn('Warning', error));
 })
 
 beforeEach((done) => {
-    mongoose.connection.collections.users.drop(() => {
-        done();
+    const { users, comments, blogposts } = mongoose.connection.collections;
+    users.drop(() => {
+        comments.drop(() => {
+            blogposts.drop(() => {
+                done();
+            });
+        })
     })
 })
